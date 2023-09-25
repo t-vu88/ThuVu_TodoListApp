@@ -36,14 +36,10 @@
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
-}
-/* Style for table data cells (td) */
 td,th {
   text-align: center; 
   padding: 8px; 
-  border-bottom: 1px solid #cac7c7; 
+  border-bottom: 1px solid rgb(216, 212, 212); 
 }
 
 .addTodoBox {
