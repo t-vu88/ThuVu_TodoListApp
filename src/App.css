@@ -45,6 +45,10 @@ td,th {
 .addTodoBox {
   border: 1px solid #ccc; 
   padding: 20px 60px; 
-  background-color: rgb(223, 216, 216); 
+  background-color: rgb(237, 232, 232); 
   text-align: center; 
+}
+
+.deleteButton{
+  background-color: rgb(196, 193, 193);
 }
