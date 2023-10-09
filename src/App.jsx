@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import './App.css'
 import TodoTable from "./components/todoTable"
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+
 
 function App() {
   const [todo, setTodo] = useState({desc:"", date: ""});
@@ -19,23 +24,55 @@ function App() {
   const deleteTodo = (index) =>{
     setTodos(todos.filter((todo,i) => i !== index))
   }
-  return (
-    <div className = "App">
-      <div className = "addTodoBox">
-        <h1>Add todo:</h1>
-        <form onSubmit = {addTodo}>
-          <label>Description:</label>
-            <input type="text" name = "desc" onChange={inputChanged} value={todo.desc}></input>
-            <label>Date:</label>
-            <input type ="date" name = "date" onChange={inputChanged} value ={todo.date}></input>
-            <input type ="submit" value ="Add"></input>  
-        </form>
-      </div>
-      
-      <TodoTable todos ={todos} deleteTodo = {deleteTodo}/>
-        
+const dateChange = (date) => 
+  setTodo({ ...todo, date }); // Update the 'date' property in 'todo' state
+const newTheme = (theme) => createTheme({
+  ...theme,
+  components: {
+    MuiPickersToolbar: {
+      styleOverrides: {
+        root: {
+          color: 'white',
+          borderRadius: 4,
+          borderWidth: 1,
+          borderColor: '#2196f3',
+          border: '1px solid',
+          backgroundColor:"skyblue",
+        }
+      }
+    }
+  }
+})
+return (
+  <div className="App">
+    <div className="addTodoBox">
+      <h1>Add todo:</h1>
+      <form onSubmit={addTodo}>
+        <label>Description:</label>
+        <input
+          type="text"
+          name="desc"
+          onChange={inputChanged}
+          value={todo.desc}
+        />
+        <label className = "calendar">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <ThemeProvider theme = {newTheme}>
+              <StaticDatePicker
+              onChange={date => dateChange(date)}
+              />
+            </ThemeProvider>
+        </LocalizationProvider>
+        </label>
+        <input type="submit" value="Add" />
+      </form>
     </div>
-  )
+    <div className = "todoTable">
+    <TodoTable todos={todos} deleteTodo={deleteTodo} />
+    </div>
+  </div>
+);
+
 }
 
 export default App
